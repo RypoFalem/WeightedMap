@@ -1,6 +1,5 @@
 package io.github.rypofalem.weighted_map;
 
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -8,18 +7,16 @@ import org.junit.Test;
 import java.util.Map;
 
 /**
- * Unit test for simple WeightedMap.
+ * Unit test for simple WeightedBranch.
  */
-public class WeightedMapTest
+public class WeightedBranchTest
 {
-
-
     // a simple test with 2 leaves attached to a main branch
     @Test
     public void simpleLeafTest(){
         WeightedLeaf<String> helmet = new WeightedLeaf<>(30, "HELMET");
         WeightedLeaf<String> sword = new WeightedLeaf<>(70, "SWORD");
-        WeightedMap<String> table = new WeightedMap<>(1);
+        WeightedBranch<String> table = new WeightedBranch<>(1);
 
         table.addChild("helm", helmet);
         table.addChild("sword", sword);
@@ -34,10 +31,10 @@ public class WeightedMapTest
     @Test
     public void simpleBranchTest(){
         WeightedLeaf<String> helmet = new WeightedLeaf<>(30, "HELMET");
-        WeightedMap<String> swords = new WeightedMap<>(70);
+        WeightedBranch<String> swords = new WeightedBranch<>(70);
         WeightedLeaf<String> diamondSword = new WeightedLeaf<>(50, "DSWORD");
         WeightedLeaf<String> goldSword = new WeightedLeaf<>(50, "GSWORD");
-        WeightedMap<String> table = new WeightedMap<>(1);
+        WeightedBranch<String> table = new WeightedBranch<>(1);
 
         swords.addChild("dSword", diamondSword);
         swords.addChild("gSword", goldSword);
@@ -54,22 +51,22 @@ public class WeightedMapTest
     // Several odds of branches 1, 2 and 3 branches deep
     @Test
     public void deepBranchTest(){
-        WeightedMap<String> table = new WeightedMap<>(1); //main branch
+        WeightedBranch<String> table = new WeightedBranch<>(1); //main branch
 
         // 2 child branches of main branch + 1 leaf
-        WeightedMap<String> weapons = new WeightedMap<>(50);
-        WeightedMap<String> armor = new WeightedMap<>(40);
+        WeightedBranch<String> weapons = new WeightedBranch<>(50);
+        WeightedBranch<String> armor = new WeightedBranch<>(40);
         WeightedLeaf<String> diamond = new WeightedLeaf<>(10, "DIAMOND");
         table.addChild("weapons", weapons);
         table.addChild("armor", armor);
         table.addChild("diamond", diamond);
 
         // 2 child branches of weapons branch
-        WeightedMap<String> swords = new WeightedMap<>(50);
+        WeightedBranch<String> swords = new WeightedBranch<>(50);
         swords.addChild("dSword", new WeightedLeaf<>(100/3, "DSWORD"));
         swords.addChild("gSword", new WeightedLeaf<>(100/3, "GSWORD"));
         swords.addChild("iSword", new WeightedLeaf<>(100/3, "ISWORD"));
-        WeightedMap<String> axes = new WeightedMap<>(50);
+        WeightedBranch<String> axes = new WeightedBranch<>(50);
         axes.addChild("dAxe", new WeightedLeaf<>(80, "DAXE"));
         axes.addChild("gAxe", new WeightedLeaf<>(20, "GAXE"));
         weapons.addChild("swords", swords);
@@ -80,8 +77,6 @@ public class WeightedMapTest
         armor.addChild("chest", new WeightedLeaf<>(20, "CHEST"));
         armor.addChild("pants", new WeightedLeaf<>(30, "PANTS"));
         armor.addChild("boots", new WeightedLeaf<>(40, "BOOTS"));
-
-
 
         Map<String, Double> odds = table.getOdds();
         assertTrue(aboutEquals(odds.get("DIAMOND"), .1));
@@ -104,9 +99,9 @@ public class WeightedMapTest
     public void duplicateElementTest(){
         WeightedLeaf<String> helmet = new WeightedLeaf<>(10, "HELMET");
         WeightedLeaf<String> helmet2 = new WeightedLeaf<>(50, "HELMET"); //duplicate elements on different branches
-        WeightedMap<String> gear = new WeightedMap<>(90);
+        WeightedBranch<String> gear = new WeightedBranch<>(90);
         WeightedLeaf<String> diamondSword = new WeightedLeaf<>(50, "DSWORD");
-        WeightedMap<String> table = new WeightedMap<>(1);
+        WeightedBranch<String> table = new WeightedBranch<>(1);
 
         gear.addChild("dSword", diamondSword);
         gear.addChild("helm2", helmet2);
@@ -118,7 +113,6 @@ public class WeightedMapTest
         assertTrue(odds.get("HELMET")+"", aboutEquals(odds.get("HELMET"), 0.55)); // .1(helmet) + .9*.5(helmet2)
         assertTrue(aboutEquals(odds.get("DSWORD"), 0.45)); // .5*.9
     }
-
 
     static boolean aboutEquals(double a, double b){
         double epsilon = .00001; // 1/1000th of a %

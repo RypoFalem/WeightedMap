@@ -2,10 +2,10 @@ package io.github.rypofalem.weighted_map;
 
 import java.util.*;
 
-public class WeightedMap<T> extends WeightedNode<T> {
+public class WeightedBranch<T> extends WeightedNode<T> {
     private Map<String, WeightedNode<T>> children;
 
-    protected WeightedMap(double weight){
+    protected WeightedBranch(double weight){
         super(weight);
     }
 
@@ -34,7 +34,7 @@ public class WeightedMap<T> extends WeightedNode<T> {
             if(node.isLeaf()){
                 addTo(map, ((WeightedLeaf<T>)node).get(), node.getWeight()/totalWeight);
             }else if(node.isMap()){
-                WeightedMap<T> childMap = ((WeightedMap<T>)node);
+                WeightedBranch<T> childMap = ((WeightedBranch<T>)node);
                 Map<T, Double> childsOdds = childMap.getOdds();
                 for(T t : childsOdds.keySet()){
                     addTo(map, t, childsOdds.get(t) * childMap.getWeight() / totalWeight);

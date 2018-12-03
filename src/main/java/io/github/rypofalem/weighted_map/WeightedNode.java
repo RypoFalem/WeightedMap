@@ -23,7 +23,7 @@ public abstract class WeightedNode <T>{
     }
 
     public final boolean isMap(){
-        return this instanceof WeightedMap;
+        return this instanceof WeightedBranch;
     }
 
 }
