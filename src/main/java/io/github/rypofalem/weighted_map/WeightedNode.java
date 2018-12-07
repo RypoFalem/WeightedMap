@@ -9,7 +9,7 @@ package io.github.rypofalem.weighted_map;
 public abstract class WeightedNode <T>{
     protected double weight;
 
-    protected WeightedNode(double weight){
+    WeightedNode(double weight){
         if(weight <= 0) throw new IllegalArgumentException("Weight must be above 0");
         this.weight = weight;
     }
@@ -22,7 +22,7 @@ public abstract class WeightedNode <T>{
         return this instanceof WeightedLeaf;
     }
 
-    public final boolean isMap(){
+    public final boolean isBranch(){
         return this instanceof WeightedBranch;
     }
 

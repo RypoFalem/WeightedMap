@@ -4,7 +4,9 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Unit test for simple WeightedBranch.
@@ -114,8 +116,47 @@ public class WeightedBranchTest
         assertTrue(aboutEquals(odds.get("DSWORD"), 0.45)); // .5*.9
     }
 
-    static boolean aboutEquals(double a, double b){
-        double epsilon = .00001; // 1/1000th of a %
+    //Make a weighted table to manage stuff and make sure the table's random picks align with the correct odds
+    @Test
+    public void weightedTableTest(){
+        WeightedTable<String> table = new WeightedTable<>("table");
+        table.addBranch("gear", 90);
+        table.addElement("helm", "HELMET", 10);
+        table.addElement("gear.dSword", "DSWORD", 50);
+        table.addElement("gear.helm2", "HELMET", 50);
+
+        // test if win% of each item is correct to .1% of expected value
+        Map<String, Double> wins = testedOddsMap(table);
+        double helmetOdds = wins.get("HELMET");
+        double swordOdds = wins.get("DSWORD");
+        assertTrue(aboutEquals(helmetOdds, .55, .55 * .001));
+        assertTrue(aboutEquals(swordOdds, .45, .45 * .001));
+    }
+
+    // return average weighted random pickrate after 1000000  tests
+    static Map<String, Double> testedOddsMap(WeightedTable<String> table){
+        table.setRandom(new Random(0));
+        double total = 1000000;
+        Map<String, Double> wins = new HashMap<>();
+        for(int i = 0; i < total; i++){
+            String winner = table.pickRandomElement();
+            if(wins.containsKey(winner)){
+                wins.put(winner, wins.get(winner) +1);
+            }else{
+                wins.put(winner, 0.0);
+            }
+        }
+        for(String key : wins.keySet()){
+            wins.put(key, wins.get(key)/total);
+        }
+        return wins;
+    }
+
+    static boolean aboutEquals(double a, double b, double epsilon){
         return Math.abs(a-b) < epsilon;
+    }
+
+    static boolean aboutEquals(double a, double b){
+        return aboutEquals(a, b, .00001); // 1/1000th of a %
     }
 }
