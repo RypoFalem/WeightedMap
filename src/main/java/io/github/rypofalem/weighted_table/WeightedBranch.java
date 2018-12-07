@@ -1,6 +1,5 @@
-package io.github.rypofalem.weighted_map;
+package io.github.rypofalem.weighted_table;
 
-import java.io.Serializable;
 import java.util.*;
 
 public final class WeightedBranch<T> extends WeightedNode<T>{

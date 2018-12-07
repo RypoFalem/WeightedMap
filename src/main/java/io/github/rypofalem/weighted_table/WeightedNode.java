@@ -1,10 +1,8 @@
-package io.github.rypofalem.weighted_map;
+package io.github.rypofalem.weighted_table;
 
 /*
  * TODO:
- * Prevent or handle circular references
  * Serialize/Deserialize
- * Add a manager that creates Nodes and picks weighted random elements
  */
 public abstract class WeightedNode <T>{
     protected double weight;

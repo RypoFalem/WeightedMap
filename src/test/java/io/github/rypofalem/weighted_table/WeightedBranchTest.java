@@ -1,4 +1,4 @@
-package io.github.rypofalem.weighted_map;
+package io.github.rypofalem.weighted_table;
 
 import static org.junit.Assert.assertTrue;
 
