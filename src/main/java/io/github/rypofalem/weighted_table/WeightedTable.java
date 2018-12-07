@@ -1,6 +1,9 @@
 package io.github.rypofalem.weighted_table;
 
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -8,8 +11,8 @@ import java.util.Random;
 
 public class WeightedTable<T> {
     private Random random;
-    private final String name;
-    private final WeightedBranch<T> trunk;
+    private String name;
+    private WeightedBranch<T> trunk;
     private boolean oddsNeedUpdate = true;
     private Map<T, Double> oddsMap;
 
@@ -113,5 +116,10 @@ public class WeightedTable<T> {
             clone.put(key, clone.get(key));
         }
         return clone;
+    }
+
+    public String serialize(){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(trunk);
     }
 }

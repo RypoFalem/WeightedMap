@@ -131,6 +131,7 @@ public class WeightedBranchTest
         double swordOdds = wins.get("DSWORD");
         assertTrue(aboutEquals(helmetOdds, .55, .55 * .001));
         assertTrue(aboutEquals(swordOdds, .45, .45 * .001));
+        System.out.println(table.serialize());
     }
 
     // return average weighted random pickrate after 1000000  tests
